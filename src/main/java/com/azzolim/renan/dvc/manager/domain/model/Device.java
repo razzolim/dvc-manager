@@ -16,7 +16,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import java.util.Set;
-import java.util.UUID;
 
 @Data
 @Entity
@@ -29,7 +28,7 @@ public class Device {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @EqualsAndHashCode.Include
-    private UUID id;
+    private Long id;
 
     @Column(nullable = false)
     private String systemName;

@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Data
 @Entity
@@ -29,7 +28,7 @@ public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @EqualsAndHashCode.Include
-    private UUID id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -38,6 +37,7 @@ public class Service {
     @JoinColumn(name = "type_id")
     private ServiceType type;
 
+    @Builder.Default
     @OneToMany(mappedBy = "service")
     private Set<ServiceCost> costs = new HashSet<>();
 
