@@ -9,11 +9,9 @@ import com.azzolim.renan.dvc.manager.domain.service.IDeviceTypeService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class DeviceTypeServiceImpl implements IDeviceTypeService {
 
     private final DeviceTypeRepository repository;

@@ -1,20 +1,14 @@
 package com.azzolim.renan.dvc.manager.api.v1.controller;
 
-import com.azzolim.renan.dvc.manager.App;
 import com.azzolim.renan.dvc.manager.api.exceptionhandler.ProblemType;
 import com.azzolim.renan.dvc.manager.api.v1.controller.in.DeviceTypeInput;
 import com.azzolim.renan.dvc.manager.domain.exception.EntityInUseException;
 import com.azzolim.renan.dvc.manager.domain.exception.EntityNotFoundException;
 import com.azzolim.renan.dvc.manager.domain.model.DeviceType;
 import com.azzolim.renan.dvc.manager.domain.service.impl.DeviceTypeServiceImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
@@ -28,20 +22,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(classes = App.class)
-@AutoConfigureMockMvc
-public class DeviceTypeControllerTest {
-
+public class DeviceTypeControllerTest extends ControllerTest {
+    
     private static final String RESOURCE = "/v1/device-types";
 
     @MockBean
     private DeviceTypeServiceImpl service;
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper mapper;
 
     @Test
     void shouldSaveNewDeviceType() throws Exception {

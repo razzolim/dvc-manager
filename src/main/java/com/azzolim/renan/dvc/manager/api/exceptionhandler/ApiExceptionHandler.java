@@ -4,6 +4,7 @@ import com.azzolim.renan.dvc.manager.domain.exception.EntityAlreadyExistsExcepti
 import com.azzolim.renan.dvc.manager.domain.exception.EntityInUseException;
 import com.azzolim.renan.dvc.manager.domain.exception.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +55,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         var status = HttpStatus.CONFLICT;
         var problemType = ProblemType.IN_USE;
         var detail = ex.getMessage();
+        var problem = createProblemBuilder(status, problemType, detail).build();
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<?> handleConstraintViolationException(ConstraintViolationException ex, WebRequest request) {
+        var status = HttpStatus.CONFLICT;
+        var problemType = ProblemType.ALREADY_EXISTS;
+        final var detail = "According to the informed params, a record already exists.";
         var problem = createProblemBuilder(status, problemType, detail).build();
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
