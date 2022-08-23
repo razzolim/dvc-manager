@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class DeviceTypeControllerTest extends ControllerTest {
-    
+
     private static final String RESOURCE = "/v1/device-types";
 
     @MockBean
