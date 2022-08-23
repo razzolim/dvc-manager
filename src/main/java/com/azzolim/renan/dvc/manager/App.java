@@ -17,6 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 import java.util.TimeZone;
 
 @SpringBootApplication
@@ -44,16 +45,9 @@ public class App implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		var dt1 = DeviceType.builder().name("Windows").build();
-		var dt2 = DeviceType.builder().name("Mac").build();
-		this.deviceTypeRepository.saveAll(List.of(dt1, dt2));
-
-		var dev1 = Device.builder().systemName("Laptop Sony Windows 10").deviceType(dt1).build();
-		var dev2 = Device.builder().systemName("Laptop Dell Windows 11").deviceType(dt1).build();
-		var dev3 = Device.builder().systemName("Macbook Air 1").deviceType(dt2).build();
-		var dev4 = Device.builder().systemName("Macbook Air 2").deviceType(dt2).build();
-		var dev5 = Device.builder().systemName("Macbook Air 3").deviceType(dt2).build();
-		this.deviceRepository.saveAll(List.of(dev1, dev2, dev3, dev4, dev5));
+		var dtWindows = DeviceType.builder().name("Windows").build();
+		var dtMac = DeviceType.builder().name("Mac").build();
+		this.deviceTypeRepository.saveAll(List.of(dtWindows, dtMac));
 
 		var st0 = ServiceType.builder().name("Device").build();
 		var st1 = ServiceType.builder().name("Antivirus").build();
@@ -62,15 +56,29 @@ public class App implements CommandLineRunner {
 		var st4 = ServiceType.builder().name("Screen share").build();
 		this.stRepository.saveAll(List.of(st0, st1, st2, st3, st4));
 
-		var serv0 = Service.builder().name("Any device").serviceType(st0).build();
-		var serv1 = Service.builder().name("Installation of antivirus").serviceType(st1).build();
-		var serv2 = Service.builder().name("Backup all data from any device").serviceType(st2).build();
-		var serv3 = Service.builder().name("PSA").serviceType(st3).build();
-		var serv4 = Service.builder().name("Screen share from anywhere").serviceType(st4).build();
-		this.serviceRepository.saveAll(List.of(serv0, serv1, serv2, serv3, serv4));
+		var svcDevice = Service.builder().name("Any device").serviceType(st0).build();
+		var svcAntivirus = Service.builder().name("Installation of antivirus").serviceType(st1).build();
+		var svcBkp = Service.builder().name("Backup all data from any device").serviceType(st2).build();
+		var svcPSA = Service.builder().name("PSA").serviceType(st3).build();
+		var svcScreenShare = Service.builder().name("Screen share from anywhere").serviceType(st4).build();
+		this.serviceRepository.saveAll(List.of(svcDevice, svcAntivirus, svcBkp, svcPSA, svcScreenShare));
 
-		var costDeviceWin = ServiceCost.builder().service(serv0).deviceType(dt1).amount(new BigDecimal(4)).build();
-		var costDeviceWMac = ServiceCost.builder().service(serv0).deviceType(dt2).amount(new BigDecimal(4)).build();
-		this.serviceCostRepository.saveAll(List.of(costDeviceWin, costDeviceWMac));
+		var costDeviceWin = ServiceCost.builder().service(svcDevice).deviceType(dtWindows).amount(new BigDecimal(4)).build();
+		var costDeviceWMac = ServiceCost.builder().service(svcDevice).deviceType(dtMac).amount(new BigDecimal(4)).build();
+		var costAntWin = ServiceCost.builder().service(svcAntivirus).deviceType(dtWindows).amount(new BigDecimal(5)).build();
+		var costAntMac = ServiceCost.builder().service(svcAntivirus).deviceType(dtMac).amount(new BigDecimal(7)).build();
+		var costBkpWin = ServiceCost.builder().service(svcBkp).deviceType(dtWindows).amount(new BigDecimal(3)).build();
+		var costBkpMac = ServiceCost.builder().service(svcBkp).deviceType(dtMac).amount(new BigDecimal(3)).build();
+		var screenWin = ServiceCost.builder().service(svcScreenShare).deviceType(dtWindows).amount(new BigDecimal(1)).build();
+		var screenMac = ServiceCost.builder().service(svcScreenShare).deviceType(dtMac).amount(new BigDecimal(1)).build();
+		var costPSAWin = ServiceCost.builder().service(svcPSA).deviceType(dtWindows).amount(new BigDecimal(10)).build();
+		this.serviceCostRepository.saveAll(List.of(costDeviceWin, costDeviceWMac, costAntWin, costAntMac, costBkpWin, costBkpMac, screenWin, screenMac, costPSAWin));
+
+		var dev1 = Device.builder().systemName("Laptop Sony Windows 10").deviceType(dtWindows).services(Set.of(svcDevice, svcAntivirus, svcBkp, svcScreenShare)).build();
+		var dev2 = Device.builder().systemName("Laptop Dell Windows 11").deviceType(dtWindows).services(Set.of(svcDevice, svcAntivirus, svcBkp, svcScreenShare)).build();
+		var dev3 = Device.builder().systemName("Macbook Air 1").deviceType(dtMac).services(Set.of(svcDevice, svcAntivirus, svcBkp, svcScreenShare)).build();
+		var dev4 = Device.builder().systemName("Macbook Air 2").deviceType(dtMac).services(Set.of(svcDevice, svcAntivirus, svcBkp, svcScreenShare)).build();
+		var dev5 = Device.builder().systemName("Macbook Air 3").deviceType(dtMac).services(Set.of(svcDevice, svcAntivirus, svcBkp, svcScreenShare)).build();
+		this.deviceRepository.saveAll(List.of(dev1, dev2, dev3, dev4, dev5));
 	}
 }

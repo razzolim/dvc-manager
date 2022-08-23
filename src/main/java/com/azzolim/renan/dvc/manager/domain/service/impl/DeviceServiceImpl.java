@@ -4,18 +4,18 @@ import com.azzolim.renan.dvc.manager.domain.exception.EntityAlreadyExistsExcepti
 import com.azzolim.renan.dvc.manager.domain.exception.EntityInUseException;
 import com.azzolim.renan.dvc.manager.domain.exception.EntityNotFoundException;
 import com.azzolim.renan.dvc.manager.domain.model.Device;
+import com.azzolim.renan.dvc.manager.domain.model.Service;
 import com.azzolim.renan.dvc.manager.domain.repository.DeviceRepository;
 import com.azzolim.renan.dvc.manager.domain.service.IDeviceService;
 import com.azzolim.renan.dvc.manager.domain.service.IDeviceTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Slf4j
-@Service
+@org.springframework.stereotype.Service
 public class DeviceServiceImpl implements IDeviceService {
 
     private final DeviceRepository repository;
@@ -66,6 +66,24 @@ public class DeviceServiceImpl implements IDeviceService {
             this.repository.delete(device);
         } catch (DataIntegrityViolationException ex) {
             throw new EntityInUseException("This record cannot be deleted because it is in use by another entity.");
+        }
+    }
+
+    @Override
+    public void addService(Device device, Service service) {
+        if (device.getServices().add(service)) {
+            this.repository.save(device);
+        } else {
+            throw new EntityAlreadyExistsException("This service already exists for the current device.");
+        }
+    }
+
+    @Override
+    public void removeService(Device device, Long serviceId) {
+        if(device.getServices().removeIf(svc -> svc.getId().equals(serviceId))) {
+            this.repository.save(device);
+        } else {
+            throw new EntityNotFoundException("This service does not exist in the current device.");
         }
     }
 }
