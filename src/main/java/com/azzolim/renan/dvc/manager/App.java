@@ -3,9 +3,11 @@ package com.azzolim.renan.dvc.manager;
 import com.azzolim.renan.dvc.manager.domain.model.Device;
 import com.azzolim.renan.dvc.manager.domain.model.DeviceType;
 import com.azzolim.renan.dvc.manager.domain.model.Service;
+import com.azzolim.renan.dvc.manager.domain.model.ServiceCost;
 import com.azzolim.renan.dvc.manager.domain.model.ServiceType;
 import com.azzolim.renan.dvc.manager.domain.repository.DeviceRepository;
 import com.azzolim.renan.dvc.manager.domain.repository.DeviceTypeRepository;
+import com.azzolim.renan.dvc.manager.domain.repository.ServiceCostRepository;
 import com.azzolim.renan.dvc.manager.domain.repository.ServiceRepository;
 import com.azzolim.renan.dvc.manager.domain.repository.ServiceTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -35,6 +38,9 @@ public class App implements CommandLineRunner {
 
 	@Autowired
 	private ServiceRepository serviceRepository;
+
+	@Autowired
+	private ServiceCostRepository serviceCostRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -62,5 +68,9 @@ public class App implements CommandLineRunner {
 		var serv3 = Service.builder().name("PSA").serviceType(st3).build();
 		var serv4 = Service.builder().name("Screen share from anywhere").serviceType(st4).build();
 		this.serviceRepository.saveAll(List.of(serv0, serv1, serv2, serv3, serv4));
+
+		var costDeviceWin = ServiceCost.builder().service(serv0).deviceType(dt1).amount(new BigDecimal(4)).build();
+		var costDeviceWMac = ServiceCost.builder().service(serv0).deviceType(dt2).amount(new BigDecimal(4)).build();
+		this.serviceCostRepository.saveAll(List.of(costDeviceWin, costDeviceWMac));
 	}
 }
