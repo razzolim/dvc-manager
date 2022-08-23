@@ -56,7 +56,7 @@ public class App implements CommandLineRunner {
 		var st4 = ServiceType.builder().name("Screen share").build();
 		this.stRepository.saveAll(List.of(st0, st1, st2, st3, st4));
 
-		var svcDevice = Service.builder().name("Any device").serviceType(st0).build();
+		var svcDevice = Service.builder().name("Device").serviceType(st0).build();
 		var svcAntivirus = Service.builder().name("Installation of antivirus").serviceType(st1).build();
 		var svcBkp = Service.builder().name("Backup all data from any device").serviceType(st2).build();
 		var svcPSA = Service.builder().name("PSA").serviceType(st3).build();
