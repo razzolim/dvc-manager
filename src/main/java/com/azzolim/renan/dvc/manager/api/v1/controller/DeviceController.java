@@ -48,7 +48,7 @@ public class DeviceController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public DeviceOutput save(@RequestBody @Valid DeviceInput input) {
+    public DeviceOutput save(@Valid @RequestBody DeviceInput input) {
         var deviceType = this.dtService.findById(input.getDeviceTypeId());
         var device = Device.builder().systemName(input.getSystemName()).deviceType(deviceType).build();
         return this.mapper.map(this.deviceService.save(device), DeviceOutput.class);
