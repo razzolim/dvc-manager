@@ -1,6 +1,7 @@
 package com.azzolim.renan.dvc.manager.api.v1.controller;
 
 import com.azzolim.renan.dvc.manager.api.v1.controller.in.DeviceTypeInput;
+import com.azzolim.renan.dvc.manager.api.v1.controller.openapi.DeviceTypeControllerOpenApi;
 import com.azzolim.renan.dvc.manager.api.v1.controller.out.DeviceTypeOutput;
 import com.azzolim.renan.dvc.manager.domain.model.DeviceType;
 import com.azzolim.renan.dvc.manager.domain.service.IDeviceTypeService;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/v1/device-types", produces = MediaType.APPLICATION_JSON_VALUE)
-public class DeviceTypeController {
+public class DeviceTypeController implements DeviceTypeControllerOpenApi {
 
     private final IDeviceTypeService service;
     private final ModelMapper mapper;

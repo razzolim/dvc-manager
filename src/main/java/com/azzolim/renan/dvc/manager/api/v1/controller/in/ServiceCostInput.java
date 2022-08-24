@@ -1,5 +1,6 @@
 package com.azzolim.renan.dvc.manager.api.v1.controller.in;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,12 +12,18 @@ import java.math.BigDecimal;
 @Setter
 public class ServiceCostInput {
 
+
+    @ApiModelProperty(example = "1")
     @NotNull
     private Long serviceId;
 
+
+    @ApiModelProperty(example = "1")
     @NotNull
     private Long deviceTypeId;
 
+
+    @ApiModelProperty(example = "1.0")
     @NotNull
     @PositiveOrZero
     private BigDecimal amount;

@@ -1,6 +1,7 @@
 package com.azzolim.renan.dvc.manager.api.v1.controller;
 
 import com.azzolim.renan.dvc.manager.api.v1.controller.in.ServiceCostInput;
+import com.azzolim.renan.dvc.manager.api.v1.controller.openapi.ServiceCostControllerOpenApi;
 import com.azzolim.renan.dvc.manager.api.v1.controller.out.ServiceCostOutput;
 import com.azzolim.renan.dvc.manager.domain.model.ServiceCost;
 import com.azzolim.renan.dvc.manager.domain.service.IDeviceTypeService;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/v1/service-costs", produces = MediaType.APPLICATION_JSON_VALUE)
-public class ServiceCostController {
+public class ServiceCostController implements ServiceCostControllerOpenApi {
 
     private final IServiceCostService costServiceImpl;
     private final IServiceService serviceServiceImpl;

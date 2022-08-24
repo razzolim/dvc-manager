@@ -1,6 +1,7 @@
 package com.azzolim.renan.dvc.manager.api.v1.controller;
 
 import com.azzolim.renan.dvc.manager.api.v1.controller.in.ServiceInput;
+import com.azzolim.renan.dvc.manager.api.v1.controller.openapi.ServiceControllerOpenApi;
 import com.azzolim.renan.dvc.manager.api.v1.controller.out.ServiceOutput;
 import com.azzolim.renan.dvc.manager.domain.model.Service;
 import com.azzolim.renan.dvc.manager.domain.service.IServiceService;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/v1/services", produces = MediaType.APPLICATION_JSON_VALUE)
-public class ServiceController {
+public class ServiceController implements ServiceControllerOpenApi {
 
     private final IServiceService service;
 

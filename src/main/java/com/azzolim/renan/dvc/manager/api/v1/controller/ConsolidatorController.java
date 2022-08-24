@@ -1,5 +1,6 @@
 package com.azzolim.renan.dvc.manager.api.v1.controller;
 
+import com.azzolim.renan.dvc.manager.api.v1.controller.openapi.ConsolidatorControllerOpenApi;
 import com.azzolim.renan.dvc.manager.api.v1.controller.out.ConsolidatorOutput;
 import com.azzolim.renan.dvc.manager.domain.service.IConsolidatorService;
 import org.springframework.http.MediaType;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/v1/consolidator", produces = MediaType.APPLICATION_JSON_VALUE)
-public class ConsolidatorController {
+public class ConsolidatorController implements ConsolidatorControllerOpenApi {
 
     private final IConsolidatorService service;
 

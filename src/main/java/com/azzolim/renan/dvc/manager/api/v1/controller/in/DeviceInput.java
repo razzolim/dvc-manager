@@ -1,5 +1,6 @@
 package com.azzolim.renan.dvc.manager.api.v1.controller.in;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,9 +15,11 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class DeviceInput {
 
+    @ApiModelProperty(example = "MacOSX")
     @NotBlank
     private String systemName;
 
+    @ApiModelProperty(example = "1")
     @NotNull
     private Long deviceTypeId;
 

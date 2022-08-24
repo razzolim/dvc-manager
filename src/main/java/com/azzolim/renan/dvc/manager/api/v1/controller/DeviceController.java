@@ -2,6 +2,7 @@ package com.azzolim.renan.dvc.manager.api.v1.controller;
 
 import com.azzolim.renan.dvc.manager.api.v1.controller.in.DeviceInput;
 import com.azzolim.renan.dvc.manager.api.v1.controller.in.PurchaseServiceInput;
+import com.azzolim.renan.dvc.manager.api.v1.controller.openapi.DeviceControllerOpenApi;
 import com.azzolim.renan.dvc.manager.api.v1.controller.out.DeviceOutput;
 import com.azzolim.renan.dvc.manager.api.v1.controller.out.ServiceOutput;
 import com.azzolim.renan.dvc.manager.api.v1.controller.out.ServiceTypeOutput;
@@ -29,7 +30,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/v1/devices", produces = MediaType.APPLICATION_JSON_VALUE)
-public class DeviceController {
+public class DeviceController implements DeviceControllerOpenApi {
 
     private final IDeviceService deviceService;
     private final IDeviceTypeService dtService;
