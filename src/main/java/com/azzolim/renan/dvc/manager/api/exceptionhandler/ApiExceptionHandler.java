@@ -30,8 +30,6 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
-    // TODO ADD TRATAMENTO JAVAX
-
     @Autowired
     private MessageSource messageSource;
 

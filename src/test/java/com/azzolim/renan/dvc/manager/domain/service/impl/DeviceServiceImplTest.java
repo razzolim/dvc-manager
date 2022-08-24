@@ -5,6 +5,7 @@ import com.azzolim.renan.dvc.manager.domain.exception.EntityInUseException;
 import com.azzolim.renan.dvc.manager.domain.exception.EntityNotFoundException;
 import com.azzolim.renan.dvc.manager.domain.model.Device;
 import com.azzolim.renan.dvc.manager.domain.model.DeviceType;
+import com.azzolim.renan.dvc.manager.domain.model.Service;
 import com.azzolim.renan.dvc.manager.domain.repository.DeviceRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -153,6 +155,52 @@ class DeviceServiceImplTest {
         assertNotNull(updatedDevice);
         assertEquals(device.getId(), updatedDevice.getId());
         assertEquals(dev2.getDeviceType().getId(), updatedDevice.getDeviceType().getId());
+    }
+
+    @Test
+    void addService() {
+        var device = Device.builder().services(new HashSet<>()).build();
+        var service = Service.builder().id(1L).build();
+        this.service.addService(device, service);
+
+        verify(this.repository, atMostOnce()).save(any(Device.class));
+    }
+
+    @Test
+    void addServiceWhenAlreadyExists() {
+        var service = Service.builder().id(1L).build();
+        var set = new HashSet<Service>();
+        set.add(service);
+        var device = Device.builder().services(set).build();
+
+        assertThrows(EntityAlreadyExistsException.class, () -> {
+            this.service.addService(device, service);
+        });
+
+        verify(this.repository, never()).save(any(Device.class));
+    }
+
+    @Test
+    void removeService() {
+        var service = Service.builder().id(1L).build();
+        var set = new HashSet<Service>();
+        set.add(service);
+        var device = Device.builder().services(set).build();
+
+        this.service.removeService(device, 1L);
+
+        verify(this.repository, atMostOnce()).save(any(Device.class));
+    }
+
+    @Test
+    void removeServiceWhenDoesNotExist() {
+        var device = Device.builder().services(new HashSet<Service>()).build();
+
+        assertThrows(EntityNotFoundException.class, () -> {
+            this.service.removeService(device, 1L);
+        });
+
+        verify(this.repository, never()).save(any(Device.class));
     }
 
 }

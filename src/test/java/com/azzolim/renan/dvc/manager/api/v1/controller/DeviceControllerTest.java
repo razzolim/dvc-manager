@@ -68,7 +68,7 @@ class DeviceControllerTest extends ControllerTest {
 
         mockMvc.perform(post(RESOURCE)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(this.mapper.writeValueAsString(device)))
+                    .content(this.mapper.writeValueAsString(input)))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.title").value(ProblemType.ALREADY_EXISTS.getTitle()));
     }

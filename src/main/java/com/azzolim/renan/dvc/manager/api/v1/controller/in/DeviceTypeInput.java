@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 @Getter
@@ -14,7 +13,6 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class DeviceTypeInput {
 
-    @Min(5)
     @NotBlank
     private String name;
 
