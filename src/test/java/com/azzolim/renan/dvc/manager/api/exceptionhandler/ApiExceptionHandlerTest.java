@@ -1,7 +1,9 @@
 package com.azzolim.renan.dvc.manager.api.exceptionhandler;
 
-import static org.junit.jupiter.api.Assertions.*;
+import com.azzolim.renan.dvc.manager.api.v1.controller.ControllerTest;
 
-class ApiExceptionHandlerTest {
+class ApiExceptionHandlerTest extends ControllerTest {
+
+
 
 }

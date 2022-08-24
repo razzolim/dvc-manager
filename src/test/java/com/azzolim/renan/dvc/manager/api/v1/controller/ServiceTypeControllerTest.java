@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
 
@@ -42,6 +43,25 @@ class ServiceTypeControllerTest extends ControllerTest {
         mockMvc.perform(get(RESOURCE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
+    }
+
+    @Test
+    void findById() throws Exception {
+        var type = ServiceType.builder().id(1L).build();
+        when(this.service.findById(anyLong())).thenReturn(type);
+
+        mockMvc.perform(get(RESOURCE + "/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(type.getId()));
+    }
+
+    @Test
+    void delete() throws Exception {
+        when(this.service.findById(anyLong())).thenReturn(ServiceType.builder().id(1L).build());
+
+        mockMvc.perform(MockMvcRequestBuilders.delete(RESOURCE + "/1"))
+                .andExpect(status().isNoContent())
+                .andExpect(jsonPath("$").doesNotExist());
     }
 
 }
