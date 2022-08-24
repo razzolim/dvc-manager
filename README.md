@@ -1,18 +1,21 @@
 # Remote Monitoring and Management (RMM)
 
-## To build and test the project
+### Specifications
+- JDK 17
+
+### To build and test the project
 ```./mvn clean install```
 
-## To run the project
+### To run the project
 ``./mvn spring-boot:run``
 
 
-## Documentation
+### Documentation
 After the application is running, please go to:
 
 ```http://localhost:8080/swagger-ui.html``` 
 
 and there you will find all endpoints specifications.
 
-## Mocks
+### Mocks
 Some values are already mocked into the application according to the given example. You can check them at ```App.java```.

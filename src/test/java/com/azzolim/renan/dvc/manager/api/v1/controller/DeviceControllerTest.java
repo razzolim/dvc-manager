@@ -2,11 +2,15 @@ package com.azzolim.renan.dvc.manager.api.v1.controller;
 
 import com.azzolim.renan.dvc.manager.api.exceptionhandler.ProblemType;
 import com.azzolim.renan.dvc.manager.api.v1.controller.in.DeviceInput;
+import com.azzolim.renan.dvc.manager.api.v1.controller.in.PurchaseServiceInput;
 import com.azzolim.renan.dvc.manager.domain.exception.EntityAlreadyExistsException;
 import com.azzolim.renan.dvc.manager.domain.model.Device;
 import com.azzolim.renan.dvc.manager.domain.model.DeviceType;
+import com.azzolim.renan.dvc.manager.domain.model.Service;
+import com.azzolim.renan.dvc.manager.domain.model.ServiceType;
 import com.azzolim.renan.dvc.manager.domain.service.impl.DeviceServiceImpl;
 import com.azzolim.renan.dvc.manager.domain.service.impl.DeviceTypeServiceImpl;
+import com.azzolim.renan.dvc.manager.domain.service.impl.ServiceServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -14,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.anyLong;
@@ -30,6 +35,9 @@ class DeviceControllerTest extends ControllerTest {
 
     @MockBean
     private DeviceTypeServiceImpl dtService;
+
+    @MockBean
+    private ServiceServiceImpl serviceServiceImpl;
 
     @Test
     void save() throws Exception {
@@ -131,6 +139,44 @@ class DeviceControllerTest extends ControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(d1.getId()))
                 .andExpect(jsonPath("$.deviceType.id").value(d1.getDeviceType().getId()));
+    }
+
+    @Test
+    void getServicesByDeviceId() throws Exception {
+        var s1 = Service.builder().id(1L).serviceType(ServiceType.builder().build()).build();
+        var s2 = Service.builder().id(2L).serviceType(ServiceType.builder().build()).build();
+        var dev = Device.builder().id(1L).services(Set.of(s1, s2)).build();
+        when(this.service.findById(anyLong())).thenReturn(dev);
+
+        mockMvc.perform(get(RESOURCE + "/1/services"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray());
+    }
+
+    @Test
+    void addService() throws Exception {
+        when(this.serviceServiceImpl.findById(anyLong())).thenReturn(Service.builder().build());
+        var s2 = Service.builder().id(2L).serviceType(ServiceType.builder().build()).build();
+        var dev = Device.builder().id(1L).services(Set.of(s2)).build();
+        when(this.service.findById(anyLong())).thenReturn(dev);
+
+        var input = new PurchaseServiceInput();
+        input.setServiceId(1L);
+
+        mockMvc.perform(post(RESOURCE + "/1/services")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(input)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$").doesNotExist());
+    }
+
+    @Test
+    void removeService() throws Exception {
+        when(this.serviceServiceImpl.findById(anyLong())).thenReturn(Service.builder().build());
+
+        mockMvc.perform(MockMvcRequestBuilders.delete(RESOURCE + "/1/services/1"))
+                .andExpect(status().isNoContent())
+                .andExpect(jsonPath("$").doesNotExist());
     }
 
 }
