@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"device_type_id", "service_id"}))
 public class ServiceCost {
 
+    @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
