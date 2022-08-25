@@ -3,12 +3,17 @@
 ### Specifications
 - JDK 17
 
+### Cloning the project
+```git clone https://github.com/razzolim/dvc-manager.git```
+
 ### To build and test the project
 ```./mvn clean install```
 
 ### To run the project
 ``./mvn spring-boot:run``
 
+### Running the project with Docker
+```docker run --name rmm-manager -p 8080:8080 razzolim/dvc-manager```
 
 ### Documentation
 After the application is running, please go to:
