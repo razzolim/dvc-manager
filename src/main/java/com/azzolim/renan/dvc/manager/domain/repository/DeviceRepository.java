@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Repository
 public interface DeviceRepository extends JpaRepository<Device, Long> {
@@ -22,5 +23,8 @@ public interface DeviceRepository extends JpaRepository<Device, Long> {
             "INNER JOIN SERVICE_COST sc ON sc.SERVICE_ID = s.ID AND dev.type_id = sc.Device_TYPE_ID" +
             " WHERE dev.ID = ?1")
     BigDecimal sumAllServicesByDeviceId(Long deviceId);
+
+    @Query("from Device d join fetch d.deviceType")
+    List<Device> findAll();
 
 }
