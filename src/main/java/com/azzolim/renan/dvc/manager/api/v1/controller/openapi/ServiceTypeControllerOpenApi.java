@@ -12,7 +12,7 @@ import io.swagger.annotations.ApiResponses;
 import java.util.List;
 
 
-@Api(tags = "Service type")
+@Api(tags = "Service Types")
 public interface ServiceTypeControllerOpenApi {
 
     @ApiOperation("Register a service type")
