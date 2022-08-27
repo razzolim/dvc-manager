@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest(classes = App.class)
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 public abstract class ControllerTest {
 
     @Autowired

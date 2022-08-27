@@ -15,6 +15,14 @@
 ### Running the project with Docker
 ```docker run --name rmm-manager -p 8080:8080 razzolim/dvc-manager```
 
+### Authentication
+Authentication is mandatory for all endpoints (swagger included). Use Basic Authentication as:
+
+| username | password |
+| ---------| -------- |
+| admin | admin
+
+
 ### Documentation
 After the application is running, please go to:
 
